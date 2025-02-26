@@ -9,6 +9,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        dystopian: ['Dystopian', 'sans-serif'],
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
@@ -20,6 +23,7 @@ const config: Config = {
         sm: 'calc(var(--radius) - 4px)',
       },
       colors: {
+        heading: '#1CF6FF',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {

@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Dystopian';
+  src: url('/fonts/dystopian.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+
 :root {
   --background: 220 47% 5%;
   --foreground: 0 0% 98%;
@@ -38,15 +47,6 @@
   @apply bg-clip-text text-transparent bg-gradient-to-r from-[#00ffcc] to-[#00ccff];
 }
 
-.hero-pattern {
-  background-image: radial-gradient(
-    circle at 1px 1px,
-    rgb(0, 255, 204, 0.1) 1px,
-    transparent 0
-  );
-  background-size: 40px 40px;
-}
-
 .snap-container {
   height: 100vh;
   scroll-snap-type: y mandatory;
@@ -74,4 +74,145 @@
   background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), var(--bg-image);
   background-size: cover;
   background-position: center;
+}
+
+/* Remove or replace the previous @keyframes glow */
+
+.glow-text {
+  /* Remove the animation property */
+  text-shadow: 0 0 20px rgba(0, 246, 255, 0.3);
+}
+
+/* Keep the rest of the styles unchanged */
+
+.glow-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.8;
+  z-index: -1;
+  background: var(--primary);
+  animation: float 6s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+
+.glow-orb:nth-child(1) {
+  width: 300px;
+  height: 300px;
+  top: -50px;
+  left: -100px;
+  animation-delay: 0s;
+  background: rgb(0, 255, 204);
+}
+
+.glow-orb:nth-child(2) {
+  width: 250px;
+  height: 250px;
+  top: 30%;
+  right: -80px;
+  animation-delay: -2s;
+  background: rgb(0, 204, 255);
+}
+
+.glow-orb:nth-child(3) {
+  width: 350px;
+  height: 350px;
+  bottom: -60px;
+  left: 30%;
+  animation-delay: -4s;
+  background: rgb(0, 255, 170);
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-20px) scale(1.1);
+  }
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+
+/* Timeline styles */
+.timeline-line {
+  background: linear-gradient(180deg, rgba(0, 255, 255, 0.9) 0%, #00ffff 100%);
+  box-shadow: 0 0 15px #00ffff,
+              0 0 25px rgba(0, 255, 255, 0.5),
+              0 0 35px rgba(0, 255, 255, 0.3);
+  mix-blend-mode: screen;
+}
+
+.timeline-end {
+  width: 24px;
+  height: 24px;
+  background: #00ffff;
+  border-radius: 50%;
+  box-shadow: 0 0 20px #00ffff,
+              0 0 40px rgba(0, 255, 255, 0.5),
+              0 0 60px rgba(0, 255, 255, 0.3);
+  mix-blend-mode: screen;
+}
+
+.timeline-beam {
+  background: linear-gradient(180deg, 
+    rgba(0, 255, 255, 0) 0%,
+    rgba(0, 255, 255, 1) 50%,
+    rgba(0, 255, 255, 0) 100%
+  );
+  mix-blend-mode: plus-lighter;
+  left: 0;
+  right: 0;
+  filter: blur(2px);
+  z-index: 2;
+}
+
+.timeline-dot {
+  width: 12px;
+  height: 12px;
+  background: #00ffff;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #00ffff,
+              0 0 20px rgba(0, 255, 255, 0.5),
+              0 0 30px rgba(0, 255, 255, 0.3);
+  z-index: 3;
+}
+
+.timeline-connector {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.timeline-line-horizontal {
+  position: absolute;
+  top: 50%;
+  height: 2px;
+  width: 50px;
+  background: linear-gradient(90deg, transparent, #00ffff);
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.timeline-line-horizontal.right {
+  right: 100%;
+  transform: translateY(-50%);
+}
+
+.timeline-line-horizontal.left {
+  left: 100%;
+  transform: translateY(-50%) rotate(180deg);
 }

@@ -1,55 +1,24 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Brain, Code, Flag, Trophy, Users, ChevronDown, Timer, Award, Target } from "lucide-react";
-import Image from "next/image";
+import { Brain, Code, Flag, Trophy, Users, Timer, Award, Target } from "lucide-react";
+import { Hero } from "@/components/hero";
+import { Brief } from "@/components/brief";
+import { Timeline } from "@/components/timeline"
 
 export default function Home() {
-  // const companyLogos = [
-  //   { name: "Intel", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Intel_logo_%282006-2020%29.svg/200px-Intel_logo_%282006-2020%29.svg.png" },
-  //   { name: "AMD", url: "https://upload.wikimedia.org/wikipedia/commons/7/7c/AMD_logo_%282006-2020%29.svg" },
-  //   { name: "JP Morgan", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/JPMorgan_Chase_logo.svg/200px-JPMorgan_Chase_logo.svg.png" },
-  //   { name: "GitLab", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/GitLab_logo.svg/200px-GitLab_logo.svg.png" },
-  //   { name: "Amazon", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/200px-Amazon_logo.svg.png" },
-  //   { name: "Microsoft", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Microsoft_logo_%282012%29.svg/200px-Microsoft_logo_%282012%29.svg.png" },
-  //   { name: "NVIDIA", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Nvidia_logo.svg/200px-Nvidia_logo.svg.png" },
-  //   { name: "Nasdaq", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/NASDAQ_Logo.svg/200px-NASDAQ_Logo.svg.png" }
-  // ];
-
   return (
-    <main className="snap-container bg-background">
-      {/* Hero Section */}
-      <section className="snap-section hero-pattern relative">
-        <div className="container mx-auto px-4 h-full flex flex-col justify-center items-center">
-          <div className="text-center">
-            <h1 className="text-8xl font-bold gradient-text mb-6">ZENITH</h1>
-            <p className="text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-              A 36-hour Point Blank contest featuring CTF, a Kaggle competition, 
-              Hackathon, and CP, where the top scorer will be crowned 
-              Programmer of the Year!
-            </p>
-            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
-              Register Now
-            </Button>
-          </div>
-          
-          {/* Company Logos */}
-          <div className="mt-20">
-          <h2 className="text-center text-2xl font-semibold mb-8">Hosted by Point Blank with members working at</h2>
-          <div className="flex flex-wrap justify-center items-center gap-8 opacity-70">
-            {['Intel', 'AMD', 'JP Morgan', 'GitLab', 'Zeta', 'Amazon', 'Microsoft', 'NVIDIA', 'Meesho', 'Nasdaq']
-              .map((sponsor) => (
-                <div key={sponsor} className="text-muted-foreground font-semibold">
-                  {sponsor}
-                </div>
-              ))}
-          </div>
-        </div>
-
-          <ChevronDown className="absolute bottom-8 animate-bounce text-primary w-8 h-8" />
-        </div>
+    <main>
+      <section className="relative">
+        <Hero />
       </section>
+      <section className="relative">
+        <Timeline />
+      </section>
+      {/* <section className="relative">
+        <Brief />
+      </section> */}
 
-      {/* CP/DSA Contest Section */}
+      {/* CP/DSA Contest Section 
       <section className="snap-section competition-bg" style={{"--bg-image": "url('https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=2070')" } as any}>
         <div className="container mx-auto px-4 h-full flex flex-col justify-center">
           <div className="max-w-4xl">
@@ -100,7 +69,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Kaggle Competition Section */}
       <section className="snap-section competition-bg" style={{"--bg-image": "url('https://images.unsplash.com/photo-1527474305487-b87b222841cc?q=80&w=1974')" } as any}>
         <div className="container mx-auto px-4 h-full flex flex-col justify-center items-end">
           <div className="max-w-4xl">
@@ -151,7 +119,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTF Section */}
       <section className="snap-section competition-bg" style={{"--bg-image": "url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=2070')" } as any}>
         <div className="container mx-auto px-4 h-full flex flex-col justify-center">
           <div className="max-w-4xl">
@@ -202,7 +169,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Hackathon Section */}
       <section className="snap-section competition-bg" style={{"--bg-image": "url('https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1974')" } as any}>
         <div className="container mx-auto px-4 h-full flex flex-col justify-center items-end">
           <div className="max-w-4xl">
@@ -253,7 +219,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Final CTA Section */}
       <section className="snap-section hero-pattern">
         <div className="container mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
           <h2 className="text-5xl font-bold mb-8">Ready to reach your ZENITH?</h2>
@@ -266,6 +231,7 @@ export default function Home() {
           </Button>
         </div>
       </section>
+      */}
     </main>
   );
 }
