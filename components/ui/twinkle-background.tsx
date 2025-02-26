@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef, ReactNode } from 'react';
+import { useEffect, useState, useRef, ReactNode, useMemo } from 'react';
 
 interface TwinkleBackgroundProps {
   children: ReactNode;
@@ -13,88 +13,91 @@ interface TwinkleBackgroundProps {
 
 export function TwinkleBackground({ 
   children, 
-  from, 
-  to, 
-  via,
-  direction = 'to-b',
-  backgroundColor = '#000000' 
+  backgroundColor = '#000000',
+  ...props 
 }: TwinkleBackgroundProps) {
-  const [dots, setDots] = useState<{ x: number; y: number; delay: number; size: number }[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
-
-  const getBackgroundStyle = () => {
-    if (!from && !to && !via) {
-      return { backgroundColor };
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [dimensions, setDimensions] = useState({ 
+    width: typeof window !== 'undefined' ? window.innerWidth : 1920, 
+    height: typeof window !== 'undefined' ? window.innerHeight : 1080 
+  });
+  
+  // Reduce number of dots by increasing spacing and add culling
+  const dots = useMemo(() => {
+    const spacing = 100; // Increased spacing
+    const maxDots = 100; // Set maximum number of dots
+    const dotsArray = [];
+    
+    const columns = Math.floor(dimensions.width / spacing);
+    const rows = Math.floor(dimensions.height / spacing);
+    const totalDots = Math.min(columns * rows, maxDots);
+    
+    for (let i = 0; i < totalDots; i++) {
+      dotsArray.push({
+        x: Math.random() * dimensions.width,
+        y: Math.random() * dimensions.height,
+        delay: Math.random() * 3,
+        opacity: Math.random() * 0.5 + 0.1
+      });
     }
-
-    const gradientParts = ['bg-gradient-' + direction];
-    if (from) gradientParts.push(`from-[${from}]`);
-    if (via) gradientParts.push(`via-[${via}]`);
-    if (to) gradientParts.push(`to-[${to}]`);
-
-    return {
-      background: `linear-gradient(${direction === 'to-r' ? '90deg' : 
-        direction === 'to-l' ? '270deg' : 
-        direction === 'to-t' ? '0deg' : 
-        direction === 'to-b' ? '180deg' : 
-        direction === 'to-tr' ? '45deg' :
-        direction === 'to-br' ? '135deg' :
-        direction === 'to-bl' ? '225deg' :
-        '315deg'}, ${from || backgroundColor} ${via ? `50%,${via},` : ','} ${to || backgroundColor})`
-    };
-  };
+    
+    return dotsArray;
+  }, [dimensions]);
 
   useEffect(() => {
-    const updateDots = () => {
+    if (!containerRef.current) return;
+
+    const updateDimensions = () => {
       if (!containerRef.current) return;
-      
-      const container = containerRef.current;
-      const rect = container.getBoundingClientRect();
-      const spacing = 40;
-      const newDots = [];
-      
-      for (let x = 0; x < rect.width; x += spacing) {
-        for (let y = 0; y < rect.height; y += spacing) {
-          newDots.push({
-            x,
-            y,
-            delay: Math.random() * 2,
-            size: Math.random() * 0.7 + 0.8
-          });
-        }
-      }
-      
-      setDots(newDots);
+      const rect = containerRef.current.getBoundingClientRect();
+      setDimensions({ width: rect.width, height: rect.height });
+      setIsLoaded(true);
     };
 
-    updateDots();
+    // Debounced resize observer
+    let timeout: NodeJS.Timeout;
+    const observer = new ResizeObserver(() => {
+      clearTimeout(timeout);
+      timeout = setTimeout(updateDimensions, 250);
+    });
     
-    const observer = new ResizeObserver(updateDots);
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
+    observer.observe(containerRef.current);
+    updateDimensions();
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      clearTimeout(timeout);
+    };
   }, []);
 
   return (
-    <div ref={containerRef} className="relative" style={getBackgroundStyle()}>
-      <svg className="absolute inset-0 w-full h-full">
+    <div 
+      ref={containerRef} 
+      className="relative bg-black min-h-screen w-full"
+      style={{ backgroundColor }}
+    >
+      <div 
+        className={`fixed inset-0 overflow-hidden transition-opacity duration-500 ${
+          isLoaded ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
         {dots.map((dot, index) => (
-          <circle
+          <div
             key={index}
-            cx={dot.x}
-            cy={dot.y}
-            r={dot.size}
-            className="fill-[rgb(0,255,204)]"
+            className="fixed w-1 h-1 rounded-full bg-[rgb(0,255,204)]"
             style={{
-              opacity: 0.5,
-              animation: `twinkle 3s ease-in-out infinite`,
-              animationDelay: `${dot.delay}s`
+              left: `${dot.x}px`,
+              top: `${dot.y}px`,
+              opacity: dot.opacity,
+              animation: `twinkle-optimized 3s ease-in-out infinite`,
+              animationDelay: `${dot.delay}s`,
+              transform: 'translate3d(0,0,0)',
+              willChange: 'opacity',
             }}
           />
         ))}
-      </svg>
+      </div>
       <div className="relative z-10">
         {children}
       </div>
