@@ -4,6 +4,7 @@ import { Brain, Code, Flag, Trophy, Users, Timer, Award, Target } from "lucide-r
 import { Hero } from "@/components/hero";
 import { Brief } from "@/components/brief";
 import { Timeline } from "@/components/timeline"
+import { Gallery } from "@/components/gallery"
 
 export default function Home() {
   return (
@@ -13,6 +14,9 @@ export default function Home() {
       </section>
       <section className="relative">
         <Timeline />
+      </section>
+      <section className="relative">
+        <Gallery/>
       </section>
       {/* <section className="relative">
         <Brief />

@@ -160,26 +160,50 @@ export function Timeline() {
   );
 
   return (
+    <TwinkleBackground backgroundColor='black'>
     <motion.section 
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
-      className="py-20 px-4 bg-gradient-to-b from-black to-[#0a0f19] via-black"
+      className="py-20 px-4"
       id="about"
     >
       <div className="max-w-6xl mx-auto">
-        <motion.h2
-          initial={{ y: -50, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
+      <motion.h2
+          initial={{ 
+            y: -50, 
+            opacity: 0,
+            filter: "drop-shadow(0 0 15px rgba(0, 246, 255, 0.2))",
+          }}
+          animate={{
+            filter: "drop-shadow(0 0 20px rgba(0, 246, 255, 0.3))",
+            transition: {
+              duration: 2,
+              repeat: Infinity,
+              repeatType: "reverse"
+            }
+          }}
+          whileInView={{ 
+            y: 0, 
+            opacity: 1,
+          }}
           viewport={{ once: true }}
-          className="text-5xl md:text-7xl text-heading mb-3 font-dystopian font-bold text-center gradient-text"
+          className="text-5xl md:text-7xl mb-7 md:mb-20 text-heading font-dystopian font-bold text-center gradient-text"
+          style={{
+            textShadow: [
+              "0 0 20px rgba(0, 246, 255, 0.3)",
+              "0 0 40px rgba(0, 246, 255, 0.2)",
+              "0 0 60px rgba(0, 246, 255, 0.1)",
+            ].join(', ')
+          }}
         >
           Event Timeline
         </motion.h2>
         {isMobile ? <MobileTimeline /> : <DesktopTimeline />}
       </div>
     </motion.section>
+    </TwinkleBackground>
   );
 }
 
