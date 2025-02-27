@@ -1,6 +1,9 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useState, useRef, ReactNode, useMemo } from 'react';
+import Saturn from '@/public/images/saturn.jpg'
+import { motion } from 'framer-motion';
 
 interface TwinkleBackgroundProps {
   children: ReactNode;
@@ -26,7 +29,7 @@ export function TwinkleBackground({
   // Reduce number of dots by increasing spacing and add culling
   const dots = useMemo(() => {
     const spacing = 100; // Increased spacing
-    const maxDots = 100; // Set maximum number of dots
+    const maxDots = 500; // Set maximum number of dots
     const dotsArray = [];
     
     const columns = Math.floor(dimensions.width / spacing);
@@ -71,6 +74,43 @@ export function TwinkleBackground({
     };
   }, []);
 
+  const [positions, setPositions] = useState<{ x: number; y: number }[]>([]);
+  const [hues, setHues] = useState<number[]>([]);
+  const [sizes, setSizes] = useState<number[]>([]);
+
+  useEffect(() => {
+    const generateRandomPositions = () => {
+      const positions = [];
+      for (let i = 0; i < 3; i++) { // Increase the number of planets
+        positions.push({
+          x: Math.random() * dimensions.width * 0.8, // Ensure within viewport
+          y: Math.random() * dimensions.height * 0.8, // Ensure within viewport
+        });
+      }
+      return positions;
+    };
+
+    const generateRandomHues = () => {
+      const hues = [];
+      for (let i = 0; i < 10; i++) { // Ensure the number of hues matches the number of planets
+        hues.push(Math.random() * 360);
+      }
+      return hues;
+    };
+
+    const generateRandomSizes = () => {
+      const sizes = [];
+      for (let i = 0; i < 10; i++) { // Ensure the number of sizes matches the number of planets
+        sizes.push(Math.random() * 100 + 50); // Random sizes between 20 and 70
+      }
+      return sizes;
+    };
+
+    setPositions(generateRandomPositions());
+    setHues(generateRandomHues());
+    setSizes(generateRandomSizes());
+  }, [dimensions]);
+
   return (
     <div 
       ref={containerRef} 
@@ -78,7 +118,7 @@ export function TwinkleBackground({
       style={{ backgroundColor }}
     >
       <div 
-        className={`fixed inset-0 overflow-hidden transition-opacity duration-500 ${
+        className={`fixed inset-0 transition-opacity duration-500 ${
           isLoaded ? 'opacity-100' : 'opacity-0'
         }`}
       >
@@ -98,7 +138,35 @@ export function TwinkleBackground({
           />
         ))}
       </div>
-      <div className="relative z-10">
+      <div className='inset-0 overflow-hidden'>
+        {positions.map((pos, index) => (
+          <motion.div
+            key={index}
+            drag
+            dragConstraints={containerRef}
+            whileDrag={{ scale: 0.9 }}
+            initial={{ x: pos.x, y: pos.y }}
+            animate={{
+              x: [pos.x, pos.x + 100, pos.x, pos.x - 100, pos.x],
+              y: [pos.y, pos.y + 50, pos.y, pos.y - 50, pos.y],
+              transition: {
+                duration: 120,
+                repeat: Infinity,
+                repeatType: 'mirror'
+              }
+            }}
+            className='absolute'
+            style={{ 
+              width: `${sizes[index]}px`, 
+              height: `${sizes[index]}px`, 
+              filter: `hue-rotate(${hues[index]}deg)` 
+            }}
+          >
+            <Image src={Saturn} alt="ok" layout="fill" objectFit="cover" />
+          </motion.div>
+        ))}
+      </div>
+      <div className="relative z-10 select-none pointer-events-none">
         {children}
       </div>
     </div>

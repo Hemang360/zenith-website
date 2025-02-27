@@ -33,9 +33,7 @@ const events: EventCard[] = [
 
 export function Gallery() {
   return (
-    <TwinkleBackground backgroundColor='black'>
-
-    <section className="w-full py-24 min-h-screen">
+    <section className="w-full py-24 min-h-screen bg-transparent">
       <div className="max-w-[88rem] mx-auto px-4 sm:px-6 lg:px-8">
         <motion.h2
           initial={{ 
@@ -122,6 +120,5 @@ export function Gallery() {
         </div>
       </div>
     </section>
-    </TwinkleBackground>
   );
 }

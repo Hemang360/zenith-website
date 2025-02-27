@@ -5,6 +5,7 @@ import { Hero } from "@/components/hero";
 import { Brief } from "@/components/brief";
 import { Timeline } from "@/components/timeline"
 import { Gallery } from "@/components/gallery"
+import { TwinkleBackground } from "@/components/ui/twinkle-background";
 
 export default function Home() {
   return (

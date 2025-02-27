@@ -56,7 +56,7 @@ const EventTimer: React.FC<EventTimerProps> = ({ targetDate }) => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center text-white font-mono">
+    <div className="flex flex-col items-center mt-20 justify-center text-white font-mono">
       <h2 className="text-2xl md:text-5xl font-bold tracking-wider mb-4 text-glow font-dystopian">
         EVENT STARTS IN
       </h2>

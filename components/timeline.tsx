@@ -117,7 +117,7 @@ export function Timeline() {
               <div className="timeline-dot absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />
               <div className="timeline-line-horizontal right" />
             </div>
-            <div className="flex-1 p-6 rounded-lg backdrop-blur-sm">
+            <div className="flex-1 p-6">
               <h3 className="text-lg font-bold text-cyber-blue mb-2">{event.title}</h3>
               <p className="text-sm text-[#B1FFFA] mb-1">{event.date}</p>
               <p className="text-xs text-gray-400">{event.description}</p>
@@ -143,7 +143,7 @@ export function Timeline() {
             transition={{ delay: index * 0.1 }}
             className={`flex items-center gap-8 ${index % 2 === 0 ? "flex-row" : "flex-row-reverse"}`}
           >
-            <div className={`flex-1 p-6 rounded-lg backdrop-blur-sm ${index % 2 === 0 ? "text-right" : "text-left"}`}>
+            <div className={`flex-1 p-6 rounded-lg ${index % 2 === 0 ? "text-right" : "text-left"}`}>
               <h3 className="text-lg md:text-2xl font-bold text-cyber-blue mb-2">{event.title}</h3>
               <p className="text-sm md:text-lg text-[#B1FFFA] mb-1">{event.date}</p>
               <p className="text-xs md:text-base text-gray-400">{event.description}</p>
@@ -160,13 +160,12 @@ export function Timeline() {
   );
 
   return (
-    <TwinkleBackground backgroundColor='black'>
     <motion.section 
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
-      className="py-20 px-4"
+      className="py-20 pt-80 bg-black"
       id="about"
     >
       <div className="max-w-6xl mx-auto">
@@ -203,7 +202,6 @@ export function Timeline() {
         {isMobile ? <MobileTimeline /> : <DesktopTimeline />}
       </div>
     </motion.section>
-    </TwinkleBackground>
   );
 }
 

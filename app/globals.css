@@ -152,7 +152,6 @@
 }
 
 
-/* Timeline styles */
 .timeline-line {
   background: linear-gradient(180deg, rgba(0, 255, 255, 0.9) 0%, #00ffff 100%);
   box-shadow: 0 0 15px #00ffff,
