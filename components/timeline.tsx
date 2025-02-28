@@ -110,7 +110,11 @@ export function Timeline() {
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: index * 0.1 }}
+            transition={{ 
+              duration: 0.8,
+              ease: "easeOut",
+              delay: index * 0.2 
+            }}
             className="flex items-center gap-8"
           >
             <div className="timeline-connector flex items-center justify-center">
@@ -140,7 +144,11 @@ export function Timeline() {
             initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: index * 0.1 }}
+            transition={{ 
+              duration: 0.8,
+              ease: "easeOut",
+              delay: index * 0.2 
+            }}
             className={`flex items-center gap-8 ${index % 2 === 0 ? "flex-row" : "flex-row-reverse"}`}
           >
             <div className={`flex-1 p-6 rounded-lg ${index % 2 === 0 ? "text-right" : "text-left"}`}>
@@ -160,14 +168,16 @@ export function Timeline() {
   );
 
   return (
+    <TwinkleBackground backgroundColor="black" fadeTop={true}>
+
     <motion.section 
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
-      className="py-20 pt-80 bg-black"
+      transition={{ duration: 1, ease: "easeOut" }}
+      className="py-20 pt-80"
       id="about"
-    >
+      >
       <div className="max-w-6xl mx-auto">
       <motion.h2
           initial={{ 
@@ -180,7 +190,8 @@ export function Timeline() {
             transition: {
               duration: 2,
               repeat: Infinity,
-              repeatType: "reverse"
+              repeatType: "reverse",
+              ease: "easeInOut"
             }
           }}
           whileInView={{ 
@@ -202,6 +213,7 @@ export function Timeline() {
         {isMobile ? <MobileTimeline /> : <DesktopTimeline />}
       </div>
     </motion.section>
+    </TwinkleBackground>
   );
 }
 

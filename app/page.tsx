@@ -16,12 +16,12 @@ export default function Home() {
       <section className="relative">
         <Timeline />
       </section>
-      <section className="relative">
-        <Gallery/>
-      </section>
       {/* <section className="relative">
-        <Brief />
+        <Gallery/>
       </section> */}
+      <section className="relative">
+        <Brief />
+      </section>
 
       {/* CP/DSA Contest Section 
       <section className="snap-section competition-bg" style={{"--bg-image": "url('https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=2070')" } as any}>

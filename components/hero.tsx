@@ -28,13 +28,15 @@ export function Hero(){
         loop 
         muted 
         playsInline
+        preload="metadata"
+        poster="/images/video-poster.jpg" // Add a poster image for initial load
       >
         <source src="/videos/bg1.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
       <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-b from-transparent to-black"></div>
   
-    <div className="container mx-auto h-full pt-56 flex flex-col justify-center items-center relative z-10">
+    <div className="container mx-auto h-full pt-[27rem] flex flex-col justify-center items-center relative z-10">
       <div className="text-center">
         <div className="glow-wrapper">
           <motion.h1 
@@ -55,11 +57,11 @@ export function Hero(){
             ZENITH
           </motion.h1>
         </div>
-        {/* <p className={${oxan.className} text-sm md:text-xl text-muted-foreground mb-16 sm:mb-24 mt-6 max-w-xl sm:max-w-3xl mx-auto }>
+        <p className={`${oxan.className} text-sm md:text-xl text-muted-foreground mb-16 sm:mb-24 mt-6 max-w-xl sm:max-w-3xl mx-auto`}>
               A 36-hour Point Blank contest featuring CTF, a Kaggle competition, 
               Hackathon, and CP, where the top scorer will be crowned 
               Programmer of the Year!
-            </p> */}
+            </p>
         <div className="pt-96">
           <EventTimer targetDate={new Date("2025-04-27T00:00:00").toISOString()} />
         </div>

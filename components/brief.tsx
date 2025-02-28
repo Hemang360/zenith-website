@@ -1,140 +1,282 @@
 'use client'
 import React, { useState } from 'react';
-import { Target, Crosshair, Briefcase, Flag } from 'lucide-react';
-import { TwinkleBackground } from "@/components/ui/twinkle-background";
-import QRsolve from "@/public/images/qrcode.webp"
-import CTF from "@/public/images/ctf.webp"
-import Help from "@/public/images/tusharctflol.webp"
+import { ChevronDown, Target, Crosshair, Briefcase, Flag } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { TwinkleBackground } from './ui/twinkle-background';
 
-interface BriefingSection {
-  images: string[];
-  text: string;
+interface FAQItem {
+  question: string;
+  answer: string;
 }
 
-interface BriefingData {
-  [key: string]: BriefingSection;
+interface FAQSection {
+  questions: FAQItem[];
+}
+
+interface FAQData {
+  [key: string]: FAQSection;
 }
 
 interface MenuItem {
-  id: keyof BriefingData;
+  id: keyof FAQData;
   label: string;
   icon: React.FC<{ className?: string }>;
 }
 
 export function Brief() {
-  const briefingData: BriefingData = {
-    ctf: {
-      images: [
-        QRsolve.src,
-        Help.src,
-        CTF.src
-      ],
-      text: "A Capture the Flag (CTF) event is a cybersecurity competition where participants solve challenges in areas like cryptography, forensics, reverse engineering, and web security to find hidden flags and score points. It can be Jeopardy-style (solving independent challenges) or Attack-Defense (teams securing and attacking systems)."
+  const faqData: FAQData = {
+    general: {
+      questions: [
+        {
+          question: "What is Zenith?",
+          answer: "Zenith is a technical fest organized by [Your Organization] that brings together technology enthusiasts for competitions, workshops, and learning opportunities."
+        },
+        {
+          question: "When and where is it happening?",
+          answer: "The event will take place on [Date] at [Venue]. Mark your calendars!"
+        },
+        {
+          question: "How can I register?",
+          answer: "Registration can be done through our website or on-spot at the venue. Early bird registrations get special discounts!"
+        }
+      ]
     },
-    dsa: {
-      images: [
-        "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab",
-        "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40",
-        "https://images.unsplash.com/photo-1497366216548-37526070297c",
-        "https://images.unsplash.com/photo-1497366811353-6870744d04b2"
-      ],
-      text: "Your target is located in a heavily fortified corporate headquarters in downtown Manhattan. The building features state-of-the-art security systems and armed personnel."
+    events: {
+      questions: [
+        {
+          question: "What events can I participate in?",
+          answer: "We offer various events including CTF, Hackathon, DSA competitions, and Kaggle challenges."
+        },
+        {
+          question: "Are there any prerequisites?",
+          answer: "Each event has different requirements. Check individual event pages for specific details."
+        }
+      ]
     },
-    hackathon: {
-      images: [
-        "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8",
-        "https://images.unsplash.com/photo-1519389950473-47ba0277781c",
-        "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5",
-        "https://images.unsplash.com/photo-1550751827-4bd374c3f58b"
-      ],
-      text: "Equipment includes: Suppressed pistol, tactical gear, hacking device, and night vision goggles. Special abilities: Enhanced stealth, lock picking, and hand-to-hand combat expertise."
+    prizes: {
+      questions: [
+        {
+          question: "What are the prizes?",
+          answer: "We have exciting prizes including cash rewards, internship opportunities, and sponsored goodies."
+        },
+        {
+          question: "How will winners be selected?",
+          answer: "Winners will be chosen based on performance metrics specific to each event. Judging criteria are available on event pages."
+        }
+      ]
     },
-    kaggle: {
-      images: [
-        "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8",
-        "https://images.unsplash.com/photo-1519389950473-47ba0277781c",
-        "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5",
-        "https://images.unsplash.com/photo-1550751827-4bd374c3f58b"
-      ],
-      text: "Equipment includes: Suppressed pistol, tactical gear, hacking device, and night vision goggles. Special abilities: Enhanced stealth, lock picking, and hand-to-hand combat expertise."
+    contact: {
+      questions: [
+        {
+          question: "How can I contact the organizers?",
+          answer: "Reach out to us at [email] or through our social media channels."
+        },
+        {
+          question: "What if I have technical issues during the event?",
+          answer: "We'll have a dedicated technical support team available throughout the event."
+        }
+      ]
     }
   };
 
   const menuItems: MenuItem[] = [
-    { id: 'ctf', label: 'CAPTURE THE FLAG', icon: Flag },
-    { id: 'dsa', label: 'DSA', icon: Target },
-    { id: 'kaggle', label: 'KAGGLE', icon: Crosshair },
-    { id: 'hackathon', label: 'HACKATHON', icon: Briefcase }
+    { id: 'general', label: 'GENERAL', icon: Flag },
+    { id: 'events', label: 'EVENTS', icon: Target },
+    { id: 'prizes', label: 'PRIZES', icon: Crosshair },
+    { id: 'contact', label: 'CONTACT', icon: Briefcase }
   ];
 
-  const [selectedSection, setSelectedSection] = useState<keyof BriefingData>('ctf');
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [selectedSection, setSelectedSection] = useState<keyof FAQData>('general');
+  const [openQuestions, setOpenQuestions] = useState<Set<string>>(new Set());
 
-  // Reset image index when changing sections
-  const handleSectionChange = (section: keyof BriefingData) => {
-    setSelectedSection(section);
-    setSelectedImageIndex(0);
+  const toggleQuestion = (questionId: string) => {
+    const newOpenQuestions = new Set(openQuestions);
+    if (newOpenQuestions.has(questionId)) {
+      newOpenQuestions.delete(questionId);
+    } else {
+      newOpenQuestions.add(questionId);
+    }
+    setOpenQuestions(newOpenQuestions);
   };
 
   return (
-      <div className="min-h-screen text-white py-52 bg-gradient-to-b from-[#0a0f19] to-[#0a0f19]">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* Left Column */}
-          <div className="lg:col-span-4">
-            <h1 className="text-6xl font-bold mb-12 tracking-wider">
-              EVENT<br />BRIEFING
-            </h1>
-            
-            <div className="space-y-6">
-              {menuItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => handleSectionChange(item.id)}
-                  className={`w-full text-left py-4 border-b-2 transition-all duration-300 flex items-center gap-3
-                    ${selectedSection === item.id 
-                      ? 'border-[#2AD7DB] text-[#2AD7DB]' 
-                      : 'border-gray-700 text-gray-400 hover:text-white'}`}
-                >
-                  <item.icon className={`w-5 h-5 ${selectedSection === item.id ? 'text-[#2AD7DB]' : 'text-gray-400'}`} />
-                  <span className="text-lg tracking-wider">{item.label}</span>
-                </button>
-              ))}
-            </div>
+    <TwinkleBackground backgroundColor='black'>
+      <div className="min-h-screen text-white py-20 md:py-40 lg:py-60">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="max-w-7xl mx-auto"
+        >
+          {/* Mobile Header */}
+          <div className="px-4 sm:px-6 lg:px-8">
+            <motion.h1 
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="text-6xl sm:text-7xl xl:text-8xl font-bold mb-8 tracking-wider font-dystopian"
+            >
+              FAQ
+            </motion.h1>
           </div>
 
-          {/* Right Column */}
-          <div className="lg:col-span-8 relative">
-            <div className="aspect-video relative overflow-hidden rounded-lg">
-              <img 
-                src={briefingData[selectedSection].images[selectedImageIndex]}
-                alt={`${String(selectedSection)} image ${selectedImageIndex + 1}`}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-8">
-                <p className="text-lg">{briefingData[selectedSection].text}</p>
+          {/* Mobile Horizontal Scroll Menu */}
+          <div className="lg:hidden relative mb-8">
+            <div className="flex overflow-x-auto scrollbar-hide px-4 sm:px-6 space-x-4 pb-4">
+              {menuItems.map((item, index) => (
+                <motion.button
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  key={item.id}
+                  onClick={() => setSelectedSection(item.id)}
+                  className={`flex items-center gap-2 whitespace-nowrap px-4 py-2 rounded-full transition-all duration-300
+                    ${selectedSection === item.id 
+                      ? 'bg-[#2AD7DB]/10 text-[#2AD7DB] border-[#2AD7DB]' 
+                      : 'text-gray-400 hover:text-white border-gray-700'}`}
+                >
+                  <item.icon className={`w-5 h-5 ${selectedSection === item.id ? 'text-[#2AD7DB]' : 'text-gray-400'}`} />
+                  <span className="text-base font-medium">{item.label}</span>
+                </motion.button>
+              ))}
+            </div>
+            {/* Fade indicators for scroll */}
+            <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-black to-transparent pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-black to-transparent pointer-events-none" />
+          </div>
+
+          {/* Desktop Layout */}
+          <div className="hidden lg:grid lg:grid-cols-12 gap-8 lg:gap-12 px-4 sm:px-6 lg:px-8">
+            {/* Left Column */}
+            <div className="lg:col-span-4 lg:sticky lg:top-32 lg:self-start">
+              <div className="space-y-4">
+                {menuItems.map((item, index) => (
+                  <motion.button
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    key={item.id}
+                    onClick={() => setSelectedSection(item.id)}
+                    className={`w-full text-left py-5 border-b-2 transition-all duration-300 
+                      flex items-center gap-4 hover:pl-2
+                      ${selectedSection === item.id 
+                        ? 'border-[#2AD7DB] text-[#2AD7DB]' 
+                        : 'border-gray-700 text-gray-400 hover:text-white'}`}
+                  >
+                    <item.icon className={`w-6 h-6 ${selectedSection === item.id ? 'text-[#2AD7DB]' : 'text-gray-400'}`} />
+                    <span className="text-xl tracking-wider font-medium">{item.label}</span>
+                  </motion.button>
+                ))}
               </div>
             </div>
 
-            {/* Thumbnail Navigation */}
-            <div className="flex gap-4 mt-4">
-              {briefingData[selectedSection].images.map((image, index) => (
-                <button
-                  key={index}
-                  onClick={() => setSelectedImageIndex(index)}
-                  className={`relative w-24 h-16 overflow-hidden rounded transition-all
-                    ${selectedImageIndex === index ? 'ring-2 ring-yellow-500' : 'opacity-50 hover:opacity-75'}`}
+            {/* Right Column */}
+            <div className="lg:col-span-8">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={selectedSection}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                  className="space-y-6"
                 >
-                  <img 
-                    src={image}
-                    alt={`${String(selectedSection)} thumbnail ${index + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                </button>
-              ))}
+                  {faqData[selectedSection].questions.map((item, index) => (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      key={index}
+                      className="border-b border-gray-700 rounded-lg bg-black/20 backdrop-blur-sm"
+                    >
+                      <button
+                        onClick={() => toggleQuestion(`${selectedSection}-${index}`)}
+                        className="w-full py-6 px-6 flex justify-between items-center text-left hover:text-[#2AD7DB] transition-colors"
+                      >
+                        <span className="text-xl font-medium pr-8">{item.question}</span>
+                        <motion.div
+                          animate={{ rotate: openQuestions.has(`${selectedSection}-${index}`) ? 180 : 0 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <ChevronDown className="w-6 h-6" />
+                        </motion.div>
+                      </button>
+                      <AnimatePresence>
+                        {openQuestions.has(`${selectedSection}-${index}`) && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="overflow-hidden"
+                          >
+                            <div className="pb-6 px-6 text-gray-300 text-lg leading-relaxed">
+                              {item.answer}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              </AnimatePresence>
             </div>
           </div>
-        </div>
+
+          {/* Mobile Content */}
+          <div className="lg:hidden px-4 sm:px-6">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={selectedSection}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className="space-y-6"
+              >
+                {faqData[selectedSection].questions.map((item, index) => (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    key={index}
+                    className="border-b border-gray-700 rounded-lg bg-black/20 backdrop-blur-sm"
+                  >
+                    <button
+                      onClick={() => toggleQuestion(`${selectedSection}-${index}`)}
+                      className="w-full py-6 px-6 flex justify-between items-center text-left hover:text-[#2AD7DB] transition-colors"
+                    >
+                      <span className="text-xl font-medium pr-8">{item.question}</span>
+                      <motion.div
+                        animate={{ rotate: openQuestions.has(`${selectedSection}-${index}`) ? 180 : 0 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <ChevronDown className="w-6 h-6" />
+                      </motion.div>
+                    </button>
+                    <AnimatePresence>
+                      {openQuestions.has(`${selectedSection}-${index}`) && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="pb-6 px-6 text-gray-300 text-lg leading-relaxed">
+                            {item.answer}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+        </motion.div>
       </div>
+    </TwinkleBackground>
   );
 }
 
