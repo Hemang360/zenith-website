@@ -1,6 +1,9 @@
+'use client'
+
 import Link from "next/link"
 import { ArrowLeft, ArrowRight, ArrowUpIcon as SendArrow, Linkedin, createLucideIcon, Instagram } from "lucide-react"
 import { Input } from "@/components/ui/input"
+import { useState } from "react";
 
 const XIcon = createLucideIcon("X", [
     [
@@ -14,6 +17,8 @@ const XIcon = createLucideIcon("X", [
   ]);
 
 export function SpaceFooter() {
+  const [message, setMessage] = useState('');
+
   return (
     <footer className="relative flex items-end w-full h-screen text-white overflow-hidden">
       <div className="absolute inset-0 overflow-hidden">
@@ -27,8 +32,6 @@ export function SpaceFooter() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-16">
           <div className="space-y-6">
             <div className="flex items-center space-x-4">
-              <ArrowLeft className="text-green-400 h-5 w-5" />
-              <ArrowRight className="text-green-400 h-5 w-5" />
             </div>
             <div className="space-y-2">
               <p className="text-xl font-medium">+9792975227</p>
@@ -63,16 +66,23 @@ export function SpaceFooter() {
 
           {/* Right column - Subscribe */}
           <div className="space-y-6">
-            <h3 className="text-lg font-medium">Subscribe</h3>
-            <div className="flex">
+          <h3 className="text-lg font-medium">Reach us out on WhatsApp</h3>
+            <div className="space-y-3">
               <Input
-                type="email"
-                placeholder="email"
-                className="bg-white/10 border-0 rounded-r-none focus-visible:ring-0 focus-visible:ring-offset-0 text-white"
+              type="text"
+              placeholder="Your message"
+              id="whatsapp-message"
+              className="bg-white/10 border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-white"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
               />
-              <button className="bg-blue-500 hover:bg-blue-600 px-4 rounded-r-md flex items-center justify-center">
-                <SendArrow className="h-5 w-5 text-white" />
-              </button>
+              <Link
+              href={`https://wa.me/8140724216?text=${encodeURIComponent(message || 'Hi Point Blank!')}`}
+              className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-md w-full flex items-center justify-center"
+              >
+              <span className="mr-2">Send Message</span>
+              <SendArrow className="h-4 w-4 text-white" />
+              </Link>
             </div>
           </div>
         </div>

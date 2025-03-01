@@ -1,8 +1,6 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Space_Grotesk } from 'next/font/google';
-import { Suspense } from 'react';
-import Loading from './loading';
 
 const spaceGrotesk = Space_Grotesk({ 
   subsets: ['latin'],
@@ -27,9 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={spaceGrotesk.className}>
-        <Suspense fallback={<Loading />}>
-          {children}
-        </Suspense>
+        {children}
       </body>
     </html>
   );
