@@ -46,8 +46,8 @@ export function Hero(){
       
       {/* Fallback image for mobile */}
       <Image
-        src="/images/video-poster.jpg"
-        alt="Background"
+        src="/images/background3.png"
+        alt=""
         fill
         className="object-cover md:hidden"
         priority={true}

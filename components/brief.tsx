@@ -108,18 +108,19 @@ export function Brief() {
           transition={{ duration: 0.6 }}
           className="max-w-7xl mx-auto"
         >
-          {/* Mobile Header */}
           <div className="px-4 sm:px-6 lg:px-8">
             <motion.h1 
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="text-6xl sm:text-7xl xl:text-8xl font-bold mb-8 tracking-wider font-dystopian"
+              className="text-6xl sm:text-7xl xl:text-8xl font-bold mb-8 tracking-wider text-heading font-dystopian"
+              style={{
+                textShadow: "0 0 20px rgba(0, 246, 255, 0.3), 0 0 40px rgba(0, 246, 255, 0.2), 0 0 60px rgba(0, 246, 255, 0.1)"
+              }}
             >
               FAQ
             </motion.h1>
           </div>
 
-          {/* Mobile Horizontal Scroll Menu */}
           <div className="lg:hidden relative mb-8">
             <div className="flex overflow-x-auto scrollbar-hide px-4 sm:px-6 space-x-4 pb-4">
               {menuItems.map((item, index) => (
@@ -139,14 +140,11 @@ export function Brief() {
                 </motion.button>
               ))}
             </div>
-            {/* Fade indicators for scroll */}
             <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-black to-transparent pointer-events-none" />
             <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-black to-transparent pointer-events-none" />
           </div>
 
-          {/* Desktop Layout */}
           <div className="hidden lg:grid lg:grid-cols-12 gap-8 lg:gap-12 px-4 sm:px-6 lg:px-8">
-            {/* Left Column */}
             <div className="lg:col-span-4 lg:sticky lg:top-32 lg:self-start">
               <div className="space-y-4">
                 {menuItems.map((item, index) => (
@@ -169,7 +167,6 @@ export function Brief() {
               </div>
             </div>
 
-            {/* Right Column */}
             <div className="lg:col-span-8">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -222,7 +219,6 @@ export function Brief() {
             </div>
           </div>
 
-          {/* Mobile Content */}
           <div className="lg:hidden px-4 sm:px-6">
             <AnimatePresence mode="wait">
               <motion.div

@@ -1,6 +1,6 @@
 "use client"
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Monoton } from "next/font/google";
 import { Oxanium } from "next/font/google";
 import { TwinkleBackground } from "@/components/ui/twinkle-background";
@@ -88,6 +88,7 @@ const timelineEvents = [
 
 export function Timeline() {
   const [isMobile, setIsMobile] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     const checkMobile = () => {
@@ -98,6 +99,13 @@ export function Timeline() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  const baseAnimation = shouldReduceMotion ? {} : {
+    initial: { opacity: 0, transform: 'translateY(20px)' },
+    whileInView: { opacity: 1, transform: 'translateY(0)' },
+    viewport: { once: true, margin: "-50px" },
+    transition: { duration: 0.5 }
+  };
+
   const MobileTimeline = () => (
     <div className="relative">
       <div className="absolute left-0 h-full w-1">
@@ -107,14 +115,7 @@ export function Timeline() {
         {timelineEvents.map((event, index) => (
           <motion.div
             key={event.title}
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ 
-              duration: 0.8,
-              ease: "easeOut",
-              delay: index * 0.2 
-            }}
+            {...baseAnimation}
             className="flex items-center gap-8"
           >
             <div className="timeline-connector flex items-center justify-center">
@@ -141,13 +142,9 @@ export function Timeline() {
         {timelineEvents.map((event, index) => (
           <motion.div
             key={event.title}
-            initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ 
-              duration: 0.8,
-              ease: "easeOut",
-              delay: index * 0.2 
+            {...baseAnimation}
+            style={{
+              transform: `translateX(${index % 2 === 0 ? '-20px' : '20px'})`,
             }}
             className={`flex items-center gap-8 ${index % 2 === 0 ? "flex-row" : "flex-row-reverse"}`}
           >
@@ -169,50 +166,20 @@ export function Timeline() {
 
   return (
     <TwinkleBackground backgroundColor="black" fadeTop={true}>
-
-    <motion.section 
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 1, ease: "easeOut" }}
-      className="py-20 pt-80"
-      id="about"
-      >
-      <div className="max-w-6xl mx-auto">
-      <motion.h2
-          initial={{ 
-            y: -50, 
-            opacity: 0,
-            filter: "drop-shadow(0 0 15px rgba(0, 246, 255, 0.2))",
-          }}
-          animate={{
-            filter: "drop-shadow(0 0 20px rgba(0, 246, 255, 0.3))",
-            transition: {
-              duration: 2,
-              repeat: Infinity,
-              repeatType: "reverse",
-              ease: "easeInOut"
-            }
-          }}
-          whileInView={{ 
-            y: 0, 
-            opacity: 1,
-          }}
-          viewport={{ once: true }}
-          className="text-5xl md:text-7xl mb-7 md:mb-20 text-heading font-dystopian font-bold text-center gradient-text"
-          style={{
-            textShadow: [
-              "0 0 20px rgba(0, 246, 255, 0.3)",
-              "0 0 40px rgba(0, 246, 255, 0.2)",
-              "0 0 60px rgba(0, 246, 255, 0.1)",
-            ].join(', ')
-          }}
-        >
-          Event Timeline
-        </motion.h2>
-        {isMobile ? <MobileTimeline /> : <DesktopTimeline />}
-      </div>
-    </motion.section>
+      <section className="py-20 pt-80" id="about">
+        <div className="max-w-6xl mx-auto">
+          <motion.h2
+            {...baseAnimation}
+            className="text-5xl md:text-7xl mb-7 md:mb-20 text-heading font-dystopian font-bold text-center gradient-text"
+            style={{
+              textShadow: "0 0 20px rgba(0, 246, 255, 0.3), 0 0 40px rgba(0, 246, 255, 0.2), 0 0 60px rgba(0, 246, 255, 0.1)"
+            }}
+          >
+            Event Timeline
+          </motion.h2>
+          {isMobile ? <MobileTimeline /> : <DesktopTimeline />}
+        </div>
+      </section>
     </TwinkleBackground>
   );
 }
