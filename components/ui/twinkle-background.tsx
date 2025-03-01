@@ -38,7 +38,8 @@ export function TwinkleBackground({
       dotsArray.push({
         x: Math.random() * dimensions.width,
         y: Math.random() * dimensions.height,
-        delay: Math.random() * 3,
+        size: Math.random() * 2 + 1, // Random size between 1-3px
+        starClass: `star-${Math.floor(Math.random() * 3) + 1}`, // Randomly assign star-1, star-2, or star-3
         opacity: Math.random() * 0.5 + 0.1
       });
     }
@@ -85,15 +86,16 @@ export function TwinkleBackground({
         {dots.map((dot, index) => (
           <div
             key={index}
-            className="absolute w-1 h-1 rounded-full bg-[rgb(0,255,204)]"
+            className={`absolute rounded-full bg-[#2AD7DB] ${dot.starClass}`}
             style={{
               left: `${Math.min(dot.x, dimensions.width - 4)}px`,
               top: `${Math.min(dot.y, dimensions.height - 4)}px`,
+              width: `${dot.size}px`,
+              height: `${dot.size}px`,
               opacity: dot.opacity,
-              animation: `twinkle-optimized 3s ease-in-out infinite`,
-              animationDelay: `${dot.delay}s`,
               transform: 'translate3d(0,0,0)',
               willChange: 'opacity',
+              boxShadow: '0 0 4px rgba(42,215,219,0.5)'
             }}
           />
         ))}

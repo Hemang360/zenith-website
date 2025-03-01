@@ -112,9 +112,9 @@ export function Brief() {
             <motion.h1 
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="text-6xl sm:text-7xl xl:text-8xl font-bold mb-8 tracking-wider text-heading font-dystopian"
+              className="text-6xl sm:text-7xl xl:text-8xl font-bold mb-8 tracking-wider font-dystopian text-[#2AD7DB]"
               style={{
-                textShadow: "0 0 20px rgba(0, 246, 255, 0.3), 0 0 40px rgba(0, 246, 255, 0.2), 0 0 60px rgba(0, 246, 255, 0.1)"
+                textShadow: "0 0 20px rgba(42,215,219,0.3), 0 0 40px rgba(42,215,219,0.2), 0 0 60px rgba(42,215,219,0.1)"
               }}
             >
               FAQ
@@ -183,16 +183,26 @@ export function Brief() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.1 }}
                       key={index}
-                      className="border-b border-gray-700 rounded-lg bg-black/20 backdrop-blur-sm"
+                      className="border-b border-gray-700/50 rounded-lg bg-black/20 backdrop-blur-sm transition-all duration-300 hover:border-[#2AD7DB]/30 group"
+                      style={{
+                        boxShadow: openQuestions.has(`${selectedSection}-${index}`) 
+                          ? '0 0 20px rgba(42,215,219,0.1)' 
+                          : 'none'
+                      }}
                     >
                       <button
                         onClick={() => toggleQuestion(`${selectedSection}-${index}`)}
-                        className="w-full py-6 px-6 flex justify-between items-center text-left hover:text-[#2AD7DB] transition-colors"
+                        className="w-full py-6 px-6 flex justify-between items-center text-left group-hover:text-[#2AD7DB] transition-colors"
                       >
                         <span className="text-xl font-medium pr-8">{item.question}</span>
                         <motion.div
                           animate={{ rotate: openQuestions.has(`${selectedSection}-${index}`) ? 180 : 0 }}
                           transition={{ duration: 0.2 }}
+                          className={`transition-colors duration-300 ${
+                            openQuestions.has(`${selectedSection}-${index}`) 
+                              ? 'text-[#2AD7DB]' 
+                              : 'group-hover:text-[#2AD7DB]'
+                          }`}
                         >
                           <ChevronDown className="w-6 h-6" />
                         </motion.div>
@@ -245,6 +255,11 @@ export function Brief() {
                       <motion.div
                         animate={{ rotate: openQuestions.has(`${selectedSection}-${index}`) ? 180 : 0 }}
                         transition={{ duration: 0.2 }}
+                        className={`transition-colors duration-300 ${
+                          openQuestions.has(`${selectedSection}-${index}`) 
+                            ? 'text-[#2AD7DB]' 
+                            : 'group-hover:text-[#2AD7DB]'
+                        }`}
                       >
                         <ChevronDown className="w-6 h-6" />
                       </motion.div>
