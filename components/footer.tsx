@@ -15,11 +15,11 @@ const XIcon = createLucideIcon("X", [
 
 export function SpaceFooter() {
   return (
-    <footer className="relative w-full text-white py-36 overflow-hidden">
+    <footer className="relative flex items-end w-full h-screen text-white overflow-hidden">
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute w-full h-[1000px] bg-gradient-to-b from-black to-transparent top-0 rounded-[100%] blur-3xl transform translate-y-[-50%]"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/80 to-transparent"></div>
-        <div className="absolute inset-0 bg-[url('/images/footerbg.png')] bg-cover bg-center opacity-40"></div>
+        <div className="absolute flex w-full  top-0 rounded-[100%] blur-3xl transform translate-y-[-50%]"></div>
+        <div className="absolute inset-0"></div>
+        <div className="absolute inset-0 bg-[url('/images/footerbg2.png')] bg-cover bg-center opacity-40"></div>
         <div className="absolute inset-0"></div>
       </div>
 

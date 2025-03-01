@@ -12,7 +12,7 @@
 
 
 :root {
-  --background: 220 47% 5%;
+  --background: 0 0% 0%; /* Changed from blue to black */
   --foreground: 0 0% 98%;
   --card: 220 47% 8%;
   --card-foreground: 0 0% 98%;
