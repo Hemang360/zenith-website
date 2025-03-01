@@ -106,6 +106,12 @@ export function Timeline() {
     transition: { duration: 0.5 }
   };
 
+  const leftRightAnimation = (index: number) => shouldReduceMotion ? {} : {
+    initial: { opacity: 0, x: index % 2 === 0 ? -50 : 50 },
+    whileInView: { opacity: 1, x: 0 },
+    transition: { duration: 0.5 }
+  };
+
   const MobileTimeline = () => (
     <div className="relative">
       <div className="absolute left-0 h-full w-1">
@@ -142,10 +148,7 @@ export function Timeline() {
         {timelineEvents.map((event, index) => (
           <motion.div
             key={event.title}
-            {...baseAnimation}
-            style={{
-              transform: `translateX(${index % 2 === 0 ? '-20px' : '20px'})`,
-            }}
+            {...leftRightAnimation(index)}
             className={`flex items-center gap-8 ${index % 2 === 0 ? "flex-row" : "flex-row-reverse"}`}
           >
             <div className={`flex-1 p-6 rounded-lg ${index % 2 === 0 ? "text-right" : "text-left"}`}>

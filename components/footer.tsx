@@ -3,7 +3,9 @@
 import Link from "next/link"
 import { ArrowLeft, ArrowRight, ArrowUpIcon as SendArrow, Linkedin, createLucideIcon, Instagram } from "lucide-react"
 import { Input } from "@/components/ui/input"
+import Image from "next/image"
 import { useState } from "react";
+import pblogo from "@/public/images/pblogo-nobg.png"
 
 const XIcon = createLucideIcon("X", [
     [
@@ -20,7 +22,7 @@ export function SpaceFooter() {
   const [message, setMessage] = useState('');
 
   return (
-    <footer className="relative flex items-end w-full h-screen text-white overflow-hidden">
+    <footer className="relative flex items-end w-full h-[50vh] text-white overflow-hidden pb-10">
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute flex w-full  top-0 rounded-[100%] blur-3xl transform translate-y-[-50%]"></div>
         <div className="absolute inset-0"></div>
@@ -29,12 +31,12 @@ export function SpaceFooter() {
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <div className="space-y-6">
             <div className="flex items-center space-x-4">
             </div>
             <div className="space-y-2">
-              <p className="text-xl font-medium">+9792975227</p>
+              <Image src={pblogo.src} alt="pblogo" width={65} height={65}/>
               <p className="text-gray-400">support@pointblank</p>
             </div>
           </div>
@@ -88,7 +90,7 @@ export function SpaceFooter() {
         </div>
 
         {/* Divider */}
-        <div className="w-full h-px bg-gray-800 my-8"></div>
+        <div className="w-full h-px bg-gray-800 my-4"></div>
 
         {/* Footer bottom */}
         <div className="flex flex-col md:flex-row justify-between items-center">

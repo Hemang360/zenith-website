@@ -10,12 +10,14 @@ interface TwinkleBackgroundProps {
   direction?: 'to-t' | 'to-tr' | 'to-r' | 'to-br' | 'to-b' | 'to-bl' | 'to-l' | 'to-tl';
   backgroundColor?: string;
   fadeTop?: boolean;
+  gradient?: string; // New prop for linear gradient
 }
 
 export function TwinkleBackground({ 
   children, 
   backgroundColor = '#000000',
   fadeTop = false,
+  gradient, // Destructure the new prop
   ...props 
 }: TwinkleBackgroundProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -24,28 +26,14 @@ export function TwinkleBackground({
     width: typeof window !== 'undefined' ? window.innerWidth : 1920, 
     height: typeof window !== 'undefined' ? window.innerHeight : 1080 
   });
-  
-  const dots = useMemo(() => {
-    const spacing = 100;
-    const maxDots = 500;
-    const dotsArray = [];
-    
-    const columns = Math.floor(dimensions.width / spacing);
-    const rows = Math.floor(dimensions.height / spacing);
-    const totalDots = Math.min(columns * rows, maxDots);
-    
-    for (let i = 0; i < totalDots; i++) {
-      dotsArray.push({
-        x: Math.random() * dimensions.width,
-        y: Math.random() * dimensions.height,
-        size: Math.random() * 2 + 1, // Random size between 1-3px
-        starClass: `star-${Math.floor(Math.random() * 3) + 1}`, // Randomly assign star-1, star-2, or star-3
-        opacity: Math.random() * 0.5 + 0.1
-      });
-    }
-    
-    return dotsArray;
-  }, [dimensions]);
+  interface Dot {
+    x: number;
+    y: number;
+    size: number;
+    starClass: string;
+    opacity: number;
+  }
+  const [dots, setDots] = useState<Dot[]>([]);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -53,7 +41,12 @@ export function TwinkleBackground({
     const updateDimensions = () => {
       if (!containerRef.current) return;
       const rect = containerRef.current.getBoundingClientRect();
-      setDimensions({ width: rect.width, height: rect.height });
+      setDimensions(prevDimensions => {
+        if (prevDimensions.width !== rect.width || prevDimensions.height !== rect.height) {
+          return { width: rect.width, height: rect.height };
+        }
+        return prevDimensions;
+      });
       setIsLoaded(true);
     };
 
@@ -72,11 +65,33 @@ export function TwinkleBackground({
     };
   }, []);
 
+  useEffect(() => {
+    const spacing = 100;
+    const maxDots = 500;
+    const dotsArray = [];
+    
+    const columns = Math.floor(dimensions.width / spacing);
+    const rows = Math.floor(dimensions.height / spacing);
+    const totalDots = Math.min(columns * rows, maxDots);
+    
+    for (let i = 0; i < totalDots; i++) {
+      dotsArray.push({
+        x: Math.random() * dimensions.width,
+        y: Math.random() * dimensions.height,
+        size: Math.random() * 2 + 1, // Random size between 1-3px
+        starClass: `star-${Math.floor(Math.random() * 3) + 1}`, // Randomly assign star-1, star-2, or star-3
+        opacity: Math.random() * 0.5 + 0.1
+      });
+    }
+    
+    setDots(dotsArray);
+  }, [dimensions]);
+
   return (
     <div 
       ref={containerRef} 
       className="relative bg-black w-full overflow-hidden"
-      style={{ backgroundColor }}
+      style={{ backgroundColor, background: gradient || backgroundColor }} // Apply gradient if provided
     >
       <div 
         className={`absolute inset-0 transition-opacity duration-500 overflow-hidden ${
@@ -101,7 +116,7 @@ export function TwinkleBackground({
         ))}
       </div>
       {fadeTop && (
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-transparent z-[1]" />
+        <div className={`absolute inset-0 bg-gradient-to-b from-black via-transparent to-transparent z-[1]`} />
       )}
       <div className="relative z-10">
         {children}
