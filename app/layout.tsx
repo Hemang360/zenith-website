@@ -1,12 +1,22 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Space_Grotesk } from 'next/font/google';
+import { Suspense } from 'react';
+import Loading from './loading';
 
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
+const spaceGrotesk = Space_Grotesk({ 
+  subsets: ['latin'],
+  display: 'swap'
+});
 
 export const metadata: Metadata = {
-  title: 'ZENITH - 36-Hour Point Blank Contest',
-  description: 'A 36-hour Point Blank contest featuring CTF, Kaggle competition, Hackathon, and CP',
+  title: {
+    template: '%s | Zenith',
+    default: 'Zenith - Programming Contest'
+  },
+  description: 'A 36-hour programming contest featuring CTF, Kaggle, Hackathon, and CP',
+  viewport: 'width=device-width, initial-scale=1',
+  themeColor: '#000000'
 };
 
 export default function RootLayout({
@@ -15,8 +25,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={spaceGrotesk.className}>{children}</body>
+    <html lang="en" className="dark">
+      <body className={spaceGrotesk.className}>
+        <Suspense fallback={<Loading />}>
+          {children}
+        </Suspense>
+      </body>
     </html>
   );
 }
