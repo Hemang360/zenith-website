@@ -1,7 +1,5 @@
-import type { NextConfig } from 'next'
-import type { Configuration as WebpackConfig } from 'webpack'
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   output: 'export',
   eslint: {
     ignoreDuringBuilds: true,
@@ -24,7 +22,7 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
   swcMinify: true,
-  webpack: (config: WebpackConfig) => {
+  webpack: (config) => {
     const fileLoaderRule = {
       test: /\.(mp4|webm|ogg|swf|ogv)$/,
       use: {
@@ -44,6 +42,6 @@ const nextConfig: NextConfig = {
 
     return config
   },
-} as const
+}
 
-export default nextConfig
+module.exports = nextConfig
