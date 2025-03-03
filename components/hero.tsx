@@ -56,9 +56,9 @@ export function Hero(){
             className={`${mon.className} text-5xl md:text-[12rem] text-heading relative z-10`}
             animate={{
               textShadow: [
-                "0 0 20px rgba(0, 246, 255, 0.3), 0 0 40px rgba(0, 246, 255, 0.2)",
-                "0 0 30px rgba(0, 246, 255, 0.5), 0 0 60px rgba(0, 246, 255, 0.3)",
-                "0 0 20px rgba(0, 246, 255, 0.3), 0 0 40px rgba(0, 246, 255, 0.2)",
+                "0 0 25px rgba(0, 246, 255, 0.5), 0 0 50px rgba(0, 246, 255, 0.4), 0 0 75px rgba(0, 246, 255, 0.3)",
+                "0 0 40px rgba(0, 246, 255, 0.7), 0 0 70px rgba(0, 246, 255, 0.5), 0 0 90px rgba(0, 246, 255, 0.4)",
+                "0 0 25px rgba(0, 246, 255, 0.5), 0 0 50px rgba(0, 246, 255, 0.4), 0 0 75px rgba(0, 246, 255, 0.3)",
               ]
             }}
             transition={{

@@ -100,7 +100,7 @@ export function Brief() {
   };
 
   return (
-    <TwinkleBackground gradient="linear-gradient(to bottom, #000000, #03030c)">
+    <TwinkleBackground gradient="linear-gradient(to bottom, #000000, #030308)">
       <div className="min-h-screen text-white py-20 md:py-40 lg:py-60">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
