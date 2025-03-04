@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import Image from "next/image"
 import { useState } from "react";
 import pblogo from "@/public/images/pblogo-nobg.png"
+import pbfull from "@/public/images/pbfulllogo.svg"
 
 const XIcon = createLucideIcon("X", [
     [
@@ -37,7 +38,7 @@ export function SpaceFooter() {
             </div>
             <div className="space-y-2">
               <Image src={pblogo.src} alt="pblogo" width={65} height={65}/>
-              <p className="text-gray-400">support@pointblank</p>
+              <p className="text-gray-400 text-lg">zenith@pointblank.club</p>
             </div>
           </div>
 
@@ -106,10 +107,7 @@ export function SpaceFooter() {
             </Link>
           </div>
           <div className="text-center md:text-left mb-6 md:mb-0">
-            <p className="text-gray-400">A POINT BLANK EVENT</p>
-          </div>
-          <div className="text-center md:text-right">
-            <p className="text-gray-400">© 2020 Point Blank. All rights reserved</p>
+            <p className="text-gray-400 flex items-center">A <Image className="mx-3 mb-[0.2rem]" src={pbfull.src} alt="pblogo" width={150} height={100}/> EVENT</p>
           </div>
         </div>
       </div>
