@@ -69,7 +69,7 @@ export function Brief() {
       questions: [
         {
           question: "How can I contact the organizers?",
-          answer: "Reach out to us at [email] or through our social media channels."
+          answer: "Reach out to us at zenith@pointblank.club or through our social media channels."
         },
         {
           question: "What if I have technical issues during the event?",
